@@ -40,7 +40,6 @@ export default function WorkoutSession() {
   const [plateTarget, setPlateTarget] = useState(60)
   const [elapsed, setElapsed] = useState(0)
 
-  // Live duration clock
   useEffect(() => {
     const t = window.setInterval(() => {
       setElapsed(Math.floor((Date.now() - startedAt.current) / 1000))
@@ -48,7 +47,6 @@ export default function WorkoutSession() {
     return () => clearInterval(t)
   }, [])
 
-  // Load routine
   useEffect(() => {
     if (routine) {
       setWorkoutName(routine.name)
@@ -70,7 +68,6 @@ export default function WorkoutSession() {
                   weight: 0,
                   completed: false
                 }))
-          // pad to target sets if needed
           while (sets.length < e.targetSets) {
             sets.push({ id: generateId(), reps: 0, weight: 0, completed: false })
           }
@@ -86,7 +83,6 @@ export default function WorkoutSession() {
     }
   }, [routine])
 
-  // Repeat last workout
   useEffect(() => {
     if (!repeatId) return
     ;(async () => {
@@ -148,7 +144,6 @@ export default function WorkoutSession() {
   }
 
   const updateExercise = async (id: string, patch: Partial<ExerciseLog>) => {
-    // When name changes, try to load last weights
     if (patch.name && patch.name.trim()) {
       const last = await getLastSetsForExercise(patch.name)
       if (last.length) {
@@ -190,7 +185,6 @@ export default function WorkoutSession() {
           : e
       )
     )
-    // Auto-start rest when completing a set
     if (field === 'completed' && value === true) {
       timerRef.current?.startRest()
     }
@@ -362,7 +356,8 @@ export default function WorkoutSession() {
                       placeholder="0"
                     />
                     <Input
-                      type="number"	ibur inputMode="numeric"
+                      type="number"
+                      inputMode="numeric"
                       value={s.reps || ''}
                       onChange={e =>
                         updateSet(ex.id, s.id, 'reps', parseInt(e.target.value) || 0)
