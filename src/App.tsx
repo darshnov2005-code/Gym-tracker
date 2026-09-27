@@ -44,8 +44,12 @@ export default function App() {
                 )
               }
             >
-              <Icon size={22} strokeWidth={isActive => (isActive ? 2.5 : 2)} />
-              <span>{label}</span>
+              {({ isActive }) => (
+                <>
+                  <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                  <span>{label}</span>
+                </>
+              )}
             </NavLink>
           ))}
         </div>
