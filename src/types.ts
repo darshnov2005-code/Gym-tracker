@@ -16,19 +16,20 @@ export interface ExerciseLog {
 
 export interface Workout {
   id?: number
-  date: string // ISO date
+  date: string
   name: string
   exercises: ExerciseLog[]
   durationMinutes?: number
   notes?: string
   createdAt: number
+  startedAt?: number
 }
 
 export interface RoutineExercise {
   name: string
   muscleGroup?: string
   targetSets: number
-  targetReps: string // e.g. "8-12"
+  targetReps: string
   restSeconds?: number
 }
 
@@ -53,4 +54,23 @@ export interface PersonalRecord {
   reps: number
   date: string
   estimated1RM: number
+}
+
+export interface Goal {
+  id?: number
+  exerciseName: string
+  targetWeight: number
+  targetReps: number
+  createdAt: number
+  completed?: boolean
+}
+
+export interface AppBackup {
+  version: 1
+  exportedAt: string
+  workouts: Workout[]
+  routines: Routine[]
+  bodyWeights: BodyWeight[]
+  personalRecords: PersonalRecord[]
+  goals: Goal[]
 }
