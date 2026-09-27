@@ -1,12 +1,14 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { Dumbbell, History, BarChart3, User, List } from 'lucide-react'
 import { cn } from './lib/utils'
+import { useTheme } from './context/ThemeContext'
 import Home from './pages/Home'
 import WorkoutSession from './pages/WorkoutSession'
 import HistoryPage from './pages/History'
 import ProgressPage from './pages/Progress'
 import RoutinesPage from './pages/Routines'
 import ProfilePage from './pages/Profile'
+import LibraryPage from './pages/Library'
 
 const navItems = [
   { to: '/', icon: Dumbbell, label: 'Train' },
@@ -17,8 +19,15 @@ const navItems = [
 ]
 
 export default function App() {
+  const { theme } = useTheme()
+
   return (
-    <div className="flex flex-col h-full max-w-lg mx-auto bg-slate-950">
+    <div
+      className={cn(
+        'flex flex-col h-full max-w-lg mx-auto',
+        theme === 'dark' ? 'bg-slate-950' : 'bg-slate-50'
+      )}
+    >
       <main className="flex-1 overflow-y-auto pb-20">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -28,10 +37,18 @@ export default function App() {
           <Route path="/progress" element={<ProgressPage />} />
           <Route path="/routines" element={<RoutinesPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/library" element={<LibraryPage />} />
         </Routes>
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-slate-900/95 backdrop-blur border-t border-slate-800 safe-area-pb">
+      <nav
+        className={cn(
+          'fixed bottom-0 left-0 right-0 max-w-lg mx-auto backdrop-blur border-t safe-area-pb',
+          theme === 'dark'
+            ? 'bg-slate-900/95 border-slate-800'
+            : 'bg-white/95 border-slate-200'
+        )}
+      >
         <div className="flex justify-around items-center h-16">
           {navItems.map(({ to, icon: Icon, label }) => (
             <NavLink
@@ -39,8 +56,12 @@ export default function App() {
               to={to}
               className={({ isActive }) =>
                 cn(
-                  'flex flex-col items-center justify-center w-full h-full gap-0.5 text-xs transition-colors',
-                  isActive ? 'text-sky-400' : 'text-slate-500 hover:text-slate-300'
+                  'flex flex-col items-center justify-center w-full h-full gap-0.5 text-xs transition-colors min-h-[48px]',
+                  isActive
+                    ? 'text-sky-500'
+                    : theme === 'dark'
+                      ? 'text-slate-500 hover:text-slate-300'
+                      : 'text-slate-400 hover:text-slate-600'
                 )
               }
             >
