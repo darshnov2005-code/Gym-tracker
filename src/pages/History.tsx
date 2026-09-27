@@ -30,6 +30,7 @@ export default function HistoryPage() {
                     <p className="font-semibold text-lg">{w.name}</p>
                     <p className="text-sm text-slate-400">
                       {format(new Date(w.date), 'EEEE, MMM d, yyyy')}
+                      {w.durationMinutes ? ` · ${w.durationMinutes} min` : ''}
                     </p>
                   </div>
                   <div className="text-right text-sm">
@@ -40,7 +41,12 @@ export default function HistoryPage() {
                 <div className="space-y-1 mt-3">
                   {w.exercises.map(ex => (
                     <div key={ex.id} className="text-sm flex justify-between text-slate-300">
-                      <span>{ex.name}</span>
+                      <span>
+                        {ex.name}
+                        {ex.muscleGroup ? (
+                          <span className="text-slate-500 text-xs ml-1">({ex.muscleGroup})</span>
+                        ) : null}
+                      </span>
                       <span className="text-slate-500">
                         {ex.sets.filter(s => s.completed).length} sets
                       </span>
